@@ -43,12 +43,15 @@ const roomIsInGame = (room)=>{
     return false
 }
 
+/**
+ * function for sending intel of room to every participant
+ */
 const sendIntelOfUserInRoom = (socket,room)=>{
     socket.emit('refreshListStatus',[farkelRoom[room]])
     if(farkelRoom[room].nbUserInRoom !== 1){
         for(const user in farkelRoom[room]){
             if(!user === "nbUserInRoom" && !user === "inGame" && !user === socket.id){
-                socket.broadcast.to(user).emit('refreshListStatus',[farkelRoom[room]])
+                socket.broadcast.to(user).emit('refreshListStatus',{payload : [farkelRoom[room]]})
             }
         }
     }
@@ -128,7 +131,7 @@ const Farkel = (socket)=>{
     })
 
     socket.on('disconnect',()=>{
-        
+
     })
 
 
