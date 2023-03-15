@@ -43,24 +43,37 @@ const roomIsInGame = (room)=>{
     return false
 }
 
+const sendIntelOfUserInRoom = (socket,room)=>{
+    socket.emit('refreshListStatus',[farkelRoom[room]])
+    if(farkelRoom[room].nbUserInRoom !== 1){
+        for(const user in farkelRoom[room]){
+            if(!user === "nbUserInRoom" && !user === "inGame" && !user === socket.id){
+                socket.broadcast.to(user).emit('refreshListStatus',[farkelRoom[room]])
+            }
+        }
+    }
+}
 
 /**
  * function for upgrade room or creating another
  */
 const joinOrCreateSession = (data,id,buildRoom=false)=>{
-    if(buildRoom){
+    if(!buildRoom){
+        farkelRoom[data.roomId].nbUserInRoom += 1
         farkelRoom[data.roomId] = {
             ...farkelRoom[data.roomId],
             [id]:{
                 idRoom      : data.roomId,
                 ready2play  : false,
                 score       : 0,
-                myTurn      : true,
+                myTurn      : false,
                 isAlive     : true,
-                name        : data.name
+                name        : data.name,
+                position    : farkelRoom[data.roomId].nbUserInRoom,
+                canPlay     : false,
+                choice      : false,
             }
         }
-        farkelRoom[data.roomId].nbUserInRoom += 1
         return
     }
     farkelRoom[data.roomId] = {
@@ -70,7 +83,10 @@ const joinOrCreateSession = (data,id,buildRoom=false)=>{
             score       : 0,
             myTurn      : true,
             isAlive     : true,
-            name        : data.name
+            name        : data.name,
+            position    : 1,
+            canPlay     : false,
+            choice      : false,
         },
         nbUserInRoom    : 1,
         inGame          : false,
@@ -95,6 +111,7 @@ const Farkel = (socket)=>{
                         joinOrCreateSession(payload,socket.id)                 // add client to the targeted room
                         joinUserList(payload,socket.id)                        // add client to the global list of user
                         socket.emit('responseLogin',{state:true,reason:0})     // send to client the confirmation that it's part of this room
+                        sendIntelOfUserInRoom(socket,payload.room)             // send to everyone in the room targeted intel about room 
                     }else{
                         socket.emit('responseLogin',{state:false,reason:2})    // send to client, the room is already full 
                     }
@@ -102,12 +119,18 @@ const Farkel = (socket)=>{
                     socket.emit('responseLogin',{state:false,reason:4})        // send to client, the room is not available because the game was already launched 
                 }
             }else{
-                joinOrCreateSession(payload,socket.id,true)
+                joinOrCreateSession(payload,socket.id,true)                    // build room and add user in this room
                 joinUserList(payload,socket.id)
-                socket.emit('responseLogin',{state:true,reason:0})
+                socket.emit('responseLogin',{state:true,reason:0})             // send to client the confirmation that it's part of this room
+                sendIntelOfUserInRoom(socket,payload.room)                     // send to everyone in the room targeted intel about room 
             }
         }
     })
+
+    socket.on('disconnect',()=>{
+        
+    })
+
 
 }
 
