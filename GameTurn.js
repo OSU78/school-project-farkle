@@ -21,9 +21,12 @@ export class GameTurn {
         this.nb_dices_to_roll = this.DEFAULT_DICES_NB;
         this.score = 0;
 
-        if(nb_dices_to_roll && score) {
+        if(nb_dices_to_roll) {
             this.nb_dices_to_roll = nb_dices_to_roll;
-            this.roll_again = true;
+        }
+
+        if(score) {
+            this.score  = score;
         }
 
         this.roll_again = true;
