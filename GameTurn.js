@@ -1,7 +1,7 @@
 
 export class GameTurn {
 
-    constructor(GAMES_RULES = {
+    constructor({nb_dices_to_roll = null, score = null, GAMES_RULES = {
         "NB_DICE_SIDES":6,
         "SCORING_DICE_VALUES": [1, 5],
         "SCORING_MULTIPLIER": [100, 50],
@@ -9,7 +9,7 @@ export class GameTurn {
         "STD_BONUS_MULTIPLIER": 100,
         "ACE_BONUS_MULTIPLIER": 1000,
         "DEFAULT_DICES_NB":5
-    }) {
+    }}) {
         this.NB_DICE_SIDES = GAMES_RULES.NB_DICE_SIDES;
         this.SCORING_DICE_VALUES = GAMES_RULES.SCORING_DICE_VALUES;
         this.SCORING_MULTIPLIER = GAMES_RULES.SCORING_MULTIPLIER;
@@ -18,9 +18,18 @@ export class GameTurn {
         this.ACE_BONUS_MULTIPLIER = GAMES_RULES.ACE_BONUS_MULTIPLIER;
         this.DEFAULT_DICES_NB = GAMES_RULES.DEFAULT_DICES_NB;
 
-        this.remaining_dice_to_roll = this.DEFAULT_DICES_NB;
+        this.nb_dices_to_roll = this.DEFAULT_DICES_NB;
+        this.score = 0;
+
+        if(nb_dices_to_roll) {
+            this.nb_dices_to_roll = nb_dices_to_roll;
+        }
+
+        if(score) {
+            this.score  = score;
+        }
+
         this.roll_again = true;
-        this.turn_score = 0;
     } 
 
     getRandomInt(min, max) {
@@ -140,31 +149,30 @@ export class GameTurn {
     }
 
     play() {
-        console.log(this.remaining_dice_to_roll)
-        const array_value_occurences = this.roll_dices(this.remaining_dice_to_roll);
-        const roll_score = this.analyse_score(array_value_occurences);
-        this.remaining_dice_to_roll = roll_score["non_scoring_dice"]
+        const array_value_occurences = this.roll_dices(this.nb_dices_to_roll);
+        const roll_results = this.analyse_score(array_value_occurences);
+        this.nb_dices_to_roll = roll_results["non_scoring_dice"]
         .reduce((accumulator, currentValue) => accumulator + currentValue, 0);
 
-        if(roll_score['score'] === 0) {
+        if(roll_results['score'] === 0) {
             this.roll_again = false;
-            const lost_points = this.turn_score;
-            this.turn_score = 0;
+            const lost_points = this.score;
+            this.score = 0;
             return {
                 "score":0,
-                "remaining_dices":0,
                 "lost_points":lost_points
             }
         }
 
-        this.turn_score += roll_score['score'];
-        if(this.remaining_dice_to_roll === 0) {
-            this.remaining_dice_to_roll = this.DEFAULT_DICES_NB;
+        this.score += roll_results['score'];
+        if(this.nb_dices_to_roll === 0) {
+            this.nb_dices_to_roll = this.DEFAULT_DICES_NB;
         }
 
         return {
-            "score":this.turn_score,
-            "remaining_dices":this.remaining_dice_to_roll,
+            "score":this.score,
+            "scoring_dice":roll_results["scoring_dice"],
+            "remaining_dices":roll_results["non_scoring_dice"],
         }
     }
 
