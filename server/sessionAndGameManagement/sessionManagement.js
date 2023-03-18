@@ -15,7 +15,7 @@ const {
         isThisPlayerIsTheWinner,
     } = require('./funcSessionManagement')
 
-const GameTurn = require('../farkelgame')
+const GameTurn = require('../game/farkelgame')
 
 /**
  * function for sending intel of room to every participant
@@ -36,7 +36,7 @@ const gameDoneByTheLastPlayer = (socket,room)=>{
     let lastUser = farkelRoom[room]
     for (const key in lastUser) {
        if(lastUser[key] !== "selectPositionInGame" && lastUser[key] !== "nbUserInRoom" && lastUser[key] !== "inGame" && lastUser[key] !== "nbUserReady"){
-            socket.broadcast.to(key).emit('gameWin',{reason : 1}) // gagner par forfait (tout le monde a abandonné)
+            socket.broadcast.to(key).emit('gameWin',{reason : 1})
        }
     }
 }
@@ -114,33 +114,31 @@ const joinOrCreateSession = (data,id,buildRoom=false)=>{
 /**
  * function to regulate login in server
  */
-
 const manageLoginUser = (socket,payload)=>{
-    if(playerAlreadyExist(farkelUser,socket.id)){                                           // control if user already exist 
+    if(playerAlreadyExist(farkelUser,socket.id)){                                           
         socket.emit('responseLogin',{state:false,reason:1})
     }
     else{
-        if(roomAlreadyExist(farkelRoom,payload.roomId)){                                    // control if room targeted by the client exist
-            if(!roomIsInGame(farkelRoom,payload.roomId)){                                   // control if game was started 
-                if(isEnoughtSpaceInRoom(farkelRoom,farkelLimitRoom,payload.roomId)){        // control if room has enought space 
-                    joinOrCreateSession(payload,socket.id)                                  // add client to the targeted room
-                    joinUserList(payload,socket.id)                                         // add client to the global list of user
-                    socket.emit('responseLogin',{state:true,reason:0})                      // send to client the confirmation that it's part of this room
-                    sendIntelOfUserInRoom(socket,payload.roomId)                              // send to everyone in the room targeted intel about room 
+        if(roomAlreadyExist(farkelRoom,payload.roomId)){                                   
+            if(!roomIsInGame(farkelRoom,payload.roomId)){                                  
+                if(isEnoughtSpaceInRoom(farkelRoom,farkelLimitRoom,payload.roomId)){       
+                    joinOrCreateSession(payload,socket.id)                                
+                    joinUserList(payload,socket.id)                                        
+                    socket.emit('responseLogin',{state:true,reason:0})                      
+                    sendIntelOfUserInRoom(socket,payload.roomId)                              
                 }else{
-                    socket.emit('responseLogin',{state:false,reason:2})                     // send to client, the room is already full 
+                    socket.emit('responseLogin',{state:false,reason:2})                     
                 }
             }else{
-                socket.emit('responseLogin',{state:false,reason:4})                         // send to client, the room is not available because the game was already launched 
+                socket.emit('responseLogin',{state:false,reason:4})                        
             }
         }else{
-            joinOrCreateSession(payload,socket.id,true)                                     // build room and add user in this room
+            joinOrCreateSession(payload,socket.id,true)                                    
             joinUserList(payload,socket.id)
-            socket.emit('responseLogin',{state:true,reason:0})                              // send to client the confirmation that it's part of this room
-            sendIntelOfUserInRoom(socket,payload.roomId)                                      // send to everyone in the room targeted intel about room 
+            socket.emit('responseLogin',{state:true,reason:0})                           
+            sendIntelOfUserInRoom(socket,payload.roomId)                                      
         }
     }
-    console.log(farkelRoom)
 }
 
 
@@ -186,7 +184,7 @@ const manageRoomInCaseOfUserDisconnection = (socket,roomIdOfDisconnectedUser)=>{
         delete farkelRoom[roomIdOfDisconnectedUser]
     }
     
-    console.log("second ",farkelRoom)
+   // console.log("second ",farkelRoom)
 }
 
 
@@ -202,7 +200,7 @@ const manageReadyStateUser = (socket)=>{
             sendIntelOfUserInRoom(socket,roomOfUserReady)
         }
         manageInGameStateRoom(socket,roomOfUserReady)
-        console.log('third ',farkelRoom)
+        //console.log('third ',farkelRoom)
     }
 }
 
@@ -234,6 +232,9 @@ const setAllUserInThisRoomCanPlay = (room)=>{
     }
 }
 
+/**
+ * function to add currentScore to scoreTotal
+ */
 const addCurrentScoreToScoreTotal = (room,socket)=>{
     if(playerAlreadyExist(farkelUser,socket.id)){
         let currentScore                            = farkelRoom[room][socket.id].currentScore
@@ -245,19 +246,20 @@ const addCurrentScoreToScoreTotal = (room,socket)=>{
     }
 }
 
+/**
+ * function for to set next player in game
+ */
 const shiftingPlayer = (room)=>{
     let Room                     = Object.keys(farkelRoom[room])
     let allUserInRoom            = []
     let actualUser               = ""
     let nextPlayer               = ""
 
-    console.log("room ",Room)
     for(let paramRoom=0;paramRoom<Room.length;paramRoom++){
         if(Room[paramRoom] !== "selectPositionInGame" && Room[paramRoom] !== "nbUserInRoom" && Room[paramRoom] !== "inGame" && Room[paramRoom] !== "nbUserReady"){
             allUserInRoom.push(Room[paramRoom])
         }
     }
-    console.log("alluserinroom ",allUserInRoom)
 
     for(let user=0;user<allUserInRoom.length;user++){
         if(farkelRoom[room][allUserInRoom[user]].myTurn){
@@ -265,14 +267,15 @@ const shiftingPlayer = (room)=>{
             farkelRoom[room][actualUser].myTurn = false
         }
     }
-    console.log("actualUser ",actualUser)
-    console.log("position ",allUserInRoom.indexOf(actualUser))
+
     nextPlayer = (allUserInRoom.indexOf(actualUser)+1)%allUserInRoom.length
-    console.log('next player',allUserInRoom[nextPlayer]," pos : ",nextPlayer)
     farkelRoom[room].selectPositionInGame = farkelRoom[room][allUserInRoom[nextPlayer]].position
     farkelRoom[room][allUserInRoom[nextPlayer]].myTurn = true
 }
 
+/**
+ * function for reset user data when we lose or left round
+ */
 const resetUserLosing = (roomPlayer,id)=>{
     farkelRoom[roomPlayer][id].currentScore     = 0
     farkelRoom[roomPlayer][id].nbDice           = nbDice
@@ -280,6 +283,9 @@ const resetUserLosing = (roomPlayer,id)=>{
     farkelRoom[roomPlayer][id].remainingDices   = []
 }
 
+/**
+ * function for set gain and prepare the user for the next round
+ */
 const updateUserScoring = (roomPlayer,id,temporaryResult)=>{
     let result = temporaryResult
     farkelRoom[roomPlayer][id].currentScore     = result.score
@@ -288,8 +294,11 @@ const updateUserScoring = (roomPlayer,id,temporaryResult)=>{
     farkelRoom[roomPlayer][id].nbDice           = (result.isRetrivingAllDice)? nbDice : result.remaining_dices_number
 }
 
+
+/**
+ * function for analyse score and reRoll of this round 
+ */
 const manageReturnGameAfterOneTimePlay = (socket,room,valueAfterOneTimePlay)=>{
-    console.log(valueAfterOneTimePlay)
     if(valueAfterOneTimePlay.isLosing){
         socket.emit('loseThisOne')
         resetUserLosing(room,socket.id)
@@ -300,6 +309,9 @@ const manageReturnGameAfterOneTimePlay = (socket,room,valueAfterOneTimePlay)=>{
     }
 }
 
+/**
+ * function manage user in case he dont want to play or retrive his CurrentScore
+ */
 const manageReturnGameWithoutPlay = (socket,room)=>{
     addCurrentScoreToScoreTotal(room,socket)
     resetUserLosing(room,socket.id)
@@ -339,23 +351,24 @@ const Farkel = (socket)=>{
      * event to manage client login in game
      */
     socket.on('loginEvent',(payload)=>{
-        console.log("login : ",payload)
         manageLoginUser(socket,payload)
     })
-
+    /**
+     * event to manage client is ready
+     */
     socket.on('clientIsReady',()=>{
         manageReadyStateUser(socket)
     })
-
+    /**
+     * event to manage client choice
+     */
     socket.on('myChoice',(payload)=>{
-        console.log("CHOIX USER")
-        
-        console.log(payload.state)
         manageChoiceInGame(socket,payload)
     })
-
+    /**
+     * event to manage disconnection 
+     */
     socket.on('disconnect',()=>{
-        console.log("deco : ",socket.id)
         manageDisconnectionUser(socket)
     })
 
