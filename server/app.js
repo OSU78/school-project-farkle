@@ -2,7 +2,7 @@ const express = require('express');
 const http = require('http');
 const app = express();
 const {Server} = require('socket.io');
-const Farkel = require('./sessionAndGameManagement/sessionManagement')
+const {Farkel} = require('./sessionAndGameManagement/sessionManagement')
 const port = process.env.PORT || 8000
 const server = http.createServer(app);
 
@@ -14,6 +14,7 @@ const io = new Server(server, {
 });
 
 io.on('connect',(socket)=>{
+    console.log('user connected ',socket.id)
     Farkel(socket)
 })
 
