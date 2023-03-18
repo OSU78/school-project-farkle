@@ -49,6 +49,7 @@ function startTimer(name) {
              
                 if (myTurnSave && playerPlayed == playerName) {
                     console.log("C'est votre tour")
+                   
                     socket.emit('myChoice', {state : true});
                     document.querySelector('.me').classList.remove('myTurn');
                     counter = 70
@@ -174,9 +175,9 @@ function updatePlayerSection(room, userLeft = null) {
                 newPlayerCard.classList.add('dead');
             }
             //alert("currentScore : " + currentScore)
-            //if(currentScore !=0 ){ 
+            if(currentScore !=0 ){ 
             document.querySelector('.currentScore').innerText = currentScore;
-            //}
+            }
             // Ajouter le contenu HTML à la carte du joueur
             newPlayerCard.innerHTML = `
             <section class="playerPoint">
@@ -250,9 +251,7 @@ function updatePlayerSection(room, userLeft = null) {
         if (myTurnSave && playerPlayed == playerName) {
             console.log("C'est votre tour")
            
-            socket.emit('myChoice', {
-               "payload":{"state" : true},
-            });
+            socket.emit('myChoice', {state : true});
             document.querySelector('.me').classList.remove('myTurn');
             counter = 70
         }
@@ -270,9 +269,7 @@ function updatePlayerSection(room, userLeft = null) {
         if (myTurnSave && playerPlayed == playerName) {
             console.log("C'est votre tour")
            
-            socket.emit('myChoice', {
-               "payload":{"state" : false},
-            });
+            socket.emit('myChoice', {state : false});
             document.querySelector('.me').classList.remove('myTurn');
             counter = 70
         }
