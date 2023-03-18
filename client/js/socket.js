@@ -49,10 +49,7 @@ function startTimer(name) {
              
                 if (myTurnSave && playerPlayed == playerName) {
                     console.log("C'est votre tour")
-                   
-                    socket.emit('myChoice', {
-                      {state : true},
-                    });
+                    socket.emit('myChoice', {state : true});
                     document.querySelector('.me').classList.remove('myTurn');
                     counter = 70
                 }
@@ -297,7 +294,6 @@ socket.on('responseLogin', (data) => {
 
 
 
-socket.emit('myChoice', { state : true});
 
 // GAME WINNERS 
 socket.on('gameWin', (data) => {
