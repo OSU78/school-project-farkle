@@ -6,7 +6,7 @@ const frontBtn = {
 var counterTour=0;
 var myTurnSave = false;
 var playerPlayed = "";
-const socket = io.connect("http://127.0.0.1:8000")
+const socket = io.connect("https://swamp-sweltering-paint.glitch.me/")
 
 const roomName = getQueryStringValue('roomName');
 const playerName = getQueryStringValue('playerName');
