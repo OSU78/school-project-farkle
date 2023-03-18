@@ -51,7 +51,7 @@ function startTimer(name) {
                     console.log("C'est votre tour")
                    
                     socket.emit('myChoice', {
-                       "payload":{"state" : true},
+                      {state : true},
                     });
                     document.querySelector('.me').classList.remove('myTurn');
                     counter = 70
