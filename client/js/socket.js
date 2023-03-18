@@ -8,6 +8,23 @@ var myTurnSave = false;
 var playerPlayed = "";
 const socket = io.connect("https://swamp-sweltering-paint.glitch.me/")
 
+const serverIsAwake = {state:false} // when state eqqual false we tell the user to be patient
+
+/**
+*   function for prevent user than the server is going to wake up
+*/
+
+const handleErrors = (e)=>{
+    console.log('veuillez patienté, nous relançons le server')
+}
+
+socket.on('connect_error', err => handleErrors(err))
+
+socket.on('connect',()=>{
+    serverIsAwake.state = true //when state its true we can go futher in the app
+    console.log('finish')
+})
+
 const roomName = getQueryStringValue('roomName');
 const playerName = getQueryStringValue('playerName');
 
