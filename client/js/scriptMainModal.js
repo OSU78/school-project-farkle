@@ -27,7 +27,7 @@ const frontBtn = {
     login: document.getElementById('loginOne'),
 }
 
-const socket = io.connect("http://127.0.0.1:8000")
+const socket = io.connect("https://swamp-sweltering-paint.glitch.me/")
 
 
 
