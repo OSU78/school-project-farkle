@@ -349,8 +349,9 @@ const Farkel = (socket)=>{
 
     socket.on('myChoice',(payload)=>{
         console.log("CHOIX USER")
-        console.log(payload.payload.state)
-        manageChoiceInGame(socket,payload.payload)
+        
+        console.log(payload.state)
+        manageChoiceInGame(socket,payload)
     })
 
     socket.on('disconnect',()=>{

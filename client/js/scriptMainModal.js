@@ -49,7 +49,7 @@ if (trigger) {
 
           
 
-            const url = `http://127.0.0.1:5500/school-project-farkle/client/game.html?roomName=${encodeURIComponent(roomName)}&playerName=${encodeURIComponent(playerName)}`;
+            const url = `https://farkle.vercel.app/game.html?roomName=${encodeURIComponent(roomName)}&playerName=${encodeURIComponent(playerName)}`;
 
             // Rediriger vers la page "game.html"
             window.location.href = url;

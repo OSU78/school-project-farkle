@@ -176,8 +176,10 @@ function updatePlayerSection(room, userLeft = null) {
             if (!isAlive) {
                 newPlayerCard.classList.add('dead');
             }
-
+            //alert("currentScore : " + currentScore)
+            //if(currentScore !=0 ){ 
             document.querySelector('.currentScore').innerText = currentScore;
+            //}
             // Ajouter le contenu HTML à la carte du joueur
             newPlayerCard.innerHTML = `
             <section class="playerPoint">
@@ -295,9 +297,7 @@ socket.on('responseLogin', (data) => {
 
 
 
-socket.emit('myChoice', {
-   "payload":{"state" : true},
-});
+socket.emit('myChoice', { state : true});
 
 // GAME WINNERS 
 socket.on('gameWin', (data) => {
