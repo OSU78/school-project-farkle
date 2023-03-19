@@ -6,7 +6,7 @@ How to join a game :
 
 - step 1 enter your name (more than 4 letters)
 - step 2 enter your room to reach your friend in here (more than 4 letters)
-- click on the "ready" button to start the game, be ready only if all your friends in the room (max room capacity : 6 players) 
+- click on the "ready" button to start the game, be ready only if all your friends are in the room (max room capacity : 6 players) 
 
 How to play :
 - Click the central button to roll the dices
