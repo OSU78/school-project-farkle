@@ -79,7 +79,7 @@ form {
     transition: all 0.20s;
 }
 
-.whiteBg{
+.whiteBg {
     background: white;
     color: #7137D0;
 }
@@ -114,7 +114,8 @@ form {
     cursor: pointer;
 
 }
-.whiteBg:hover{
+
+.whiteBg:hover {
     animation: unset;
     background: linear-gradient(180deg, #7137D0 0%, rgba(17, 118, 162, 0.99) 100%);
     color: white;
@@ -137,6 +138,7 @@ form {
     width: -webkit-fill-available;
     width: -moz-available;
 }
+
 .column {
     display: flex;
     flex-direction: column;
@@ -145,9 +147,11 @@ form {
     width: -webkit-fill-available;
     width: -moz-available;
 }
+
 .none {
     display: none;
 }
+
 .label {
     font-size: 13px;
     color: rgba(0, 0, 0, 0.5);
@@ -156,6 +160,26 @@ form {
 
 
 
+.fitContent {
+    width: fit-content !important;
+}
+
+.card {
+    width: 100%;
+    height: fit-content;
+    background: white;
+    border-radius: 7px;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    padding: 10px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    margin: 10px;
+    gap: 5px;
+}
+.card p{
+    margin: 0;
+    padding: 0;
+}
 
 .playerG {
     display: flex;
@@ -192,7 +216,7 @@ form {
 .scaleInOut {
     animation: scaleInOut 1s infinite;
     transition: background-color 0.3s;
-    
+
 }
 
 .scaleInOut:hover {
@@ -251,23 +275,32 @@ form {
     background-clip: text;
     text-fill-color: transparent;
 }
+
 .gap5 {
     gap: 5px;
 }
+
 .relative {
     position: relative;
 }
-.pt{
+
+.pt {
     margin-bottom: -2px;
     font-size: 13px;
 }
+
 .gap40 {
     gap: 40px;
 }
+
 .spaceArround {
     justify-content: space-around;
 }
-.playerPoint2{
+.space-beetween {
+    justify-content: space-between;
+}
+
+.playerPoint2 {
     display: flex;
     flex-direction: row;
     justify-content: center;
@@ -284,6 +317,17 @@ form {
     -webkit-text-fill-color: transparent;
     background-clip: text;
     text-fill-color: transparent;
+}
+
+#diceRestant{
+    font-size: 1.8em;
+    background: linear-gradient(180deg,
+    #7137d0 0%,
+    rgba(17, 118, 162, 0.99) 100%);
+-webkit-background-clip: text;
+-webkit-text-fill-color: transparent;
+background-clip: text;
+text-fill-color: transparent;
 }
 
 .playerPoint h1 {
@@ -353,7 +397,7 @@ form {
 .hover:hover {
     transform: scale(1.12);
     cursor: pointer;
-    
+
 }
 
 .ellipse {
@@ -366,11 +410,25 @@ form {
     background-size: contain;
 
 }
+
+.bgWinDice{
+    background: #6442ca;
+    padding: 5px;
+    border-radius: 8px;
+    opacity: 0.7;
+}
+.bgBlack{
+    background: #000000;
+    padding: 5px;
+    border-radius: 8px;
+    opacity: 0.2;
+}
 .outlineScale {
     animation: scaleOutline 1.3s infinite;
-   
+
 }
-.ellipse:hover{
+
+.ellipse:hover {
     outline: 4px solid #f5f3f3;
 }
 
@@ -378,14 +436,16 @@ form {
     animation: opacity 1.4s infinite;
 }
 
-@keyframes scaleOutline{
-    0%{
+@keyframes scaleOutline {
+    0% {
         outline: 23px solid #f5f3f3;
     }
-    50%{
+
+    50% {
         outline: 4px solid #d0d0d0;
     }
-    100%{
+
+    100% {
         outline: 23px solid #f5f3f3;
     }
 }
@@ -532,6 +592,33 @@ form {
         transform: translateY(0) scale(1) rotateX(0deg);
     }
 }
+
+
+@keyframes vibration {
+    0% {
+      transform: translate(0);
+    }
+    20% {
+      transform: translate(-3px, 3px);
+    }
+    40% {
+      transform: translate(3px, -3px);
+    }
+    60% {
+      transform: translate(-3px, 3px);
+    }
+    80% {
+      transform: translate(3px, -3px);
+    }
+    100% {
+      transform: translate(0);
+    }
+  }
+  
+  .vibrating {
+    animation: vibration 0.20s linear 3;
+  }
+
 
 /* Application de l'animation à un nouvel élément */
 .new-player {
