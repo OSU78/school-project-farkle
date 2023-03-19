@@ -655,4 +655,15 @@ form {
     .playerStatus{
         font-size: 0.54rem;
     }
+    .playerG{
+        padding-top: 0px;
+    }
+    .playerName{
+        font-size: 1.54rem;
+    }
+    
+    #scoringDice{
+        flex-wrap: wrap;
+        padding: 12px;
+    }
 }
