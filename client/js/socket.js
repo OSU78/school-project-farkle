@@ -146,7 +146,7 @@ function updatePlayerSection(room, userLeft = null) {
                 remainingDices,
                 nbDice,
             } = userData;
-            
+
             console.log("name : " + name)
             // Si l'utilisateur est parti, passer à l'itération suivante sans créer de nouvelle carte
             if (userLeft && name === userLeft) {
@@ -171,32 +171,27 @@ function updatePlayerSection(room, userLeft = null) {
             //Si c'est le tour du joueur, ajouter la classe "myTurn" à la carte du joueur
             if (myTurn) {
                 document.querySelector('#diceRestant').innerText = nbDice;
-                if (myTurn && playerPlayed == playerName) {
-                   
-                   
-                    //alert (nbDice)
-                    document.querySelector(`.scoringDice1`).previousElementSibling.classList.remove('vibrating');
-                    document.querySelector(`.scoringDice5`).previousElementSibling.classList.remove('vibrating');
-                    document.querySelector(`.remainingDice1`).previousElementSibling.classList.remove('vibrating');
-                    document.querySelector(`.remainingDice5`).previousElementSibling.classList.remove('vibrating');
-                   
-                    scoringDices.forEach((dice, index) => {
-                        document.querySelector(`.scoringDice${index + 1}`).innerText = dice;
-                        console.log(`DICE = scoringDice${index + 1} `)
-                        if (index + 1 == 5 || index + 1 == 1) {
-                            document.querySelector(`.scoringDice${index + 1}`).previousElementSibling.classList.add('vibrating');
+                document.querySelector(`.scoringDice1`).previousElementSibling.classList.remove('vibrating');
+                document.querySelector(`.scoringDice5`).previousElementSibling.classList.remove('vibrating');
+                document.querySelector(`.remainingDice1`).previousElementSibling.classList.remove('vibrating');
+                document.querySelector(`.remainingDice5`).previousElementSibling.classList.remove('vibrating');
 
-                        }
+                scoringDices.forEach((dice, index) => {
+                    document.querySelector(`.scoringDice${index + 1}`).innerText = dice;
+                    console.log(`DICE = scoringDice${index + 1} `)
+                    if (index + 1 == 5 || index + 1 == 1) {
+                        document.querySelector(`.scoringDice${index + 1}`).previousElementSibling.classList.add('vibrating');
+
+                    }
 
 
-                    })
-                    remainingDices.forEach((dice, index) => {
-                        document.querySelector(`.remainingDice${index + 1}`).innerText = dice;
-                        if (index + 1 == 5 || index + 1 == 1) {
-                            document.querySelector(`.remainingDice${index + 1}`).previousElementSibling.classList.add('vibrating');
-                        }
-                    })
-                }
+                })
+                remainingDices.forEach((dice, index) => {
+                    document.querySelector(`.remainingDice${index + 1}`).innerText = dice;
+                    if (index + 1 == 5 || index + 1 == 1) {
+                        document.querySelector(`.remainingDice${index + 1}`).previousElementSibling.classList.add('vibrating');
+                    }
+                })
 
                 console.table(scoringDices)
                 myTurnSave = true;
@@ -297,7 +292,7 @@ function winnerDisplay(data) {
         generateConfetti(100); // Génère 100 confettis
         document.querySelector(".winner-btn").classList.add("vibrating");
         document.querySelector('.winner-btn').addEventListener('click', () => {
-            window.location.href = "https://"+window.location.hostname;
+            window.location.href = "https://" + window.location.hostname;
         })
         return
     }
@@ -312,7 +307,7 @@ function winnerDisplay(data) {
     generateConfetti(100); // Génère 100 confettis
     document.querySelector(".winner-btn").classList.add("vibrating");
     document.querySelector('.winner-btn').addEventListener('click', () => {
-        window.location.href = "https://"+window.location.hostname;
+        window.location.href = "https://" + window.location.hostname;
     })
 }
 
