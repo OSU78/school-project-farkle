@@ -37,7 +37,22 @@
       </div>
 
       <div class="flex row center gap20 spaceArround">
-        <div class="ellipse hover flex center outlineScale column" id="playDice">
+
+
+      <div class="flex column center fitContent">
+          <div class="flex row center  gap5 " style=" margin: 0; height: 25px; gap: 10px ; justify-content: start;margin-left:12Px">
+            <p>Dée restant</p> <p class="" id="diceRestant">5</p>
+          </div>
+          <div class="flex row center fitContent gap5 card space-beetween" id="scoringDice">
+            <section class="flex column center fitContent gap5"> <img src="asset/dice1.png" alt="Dice1" width="28px" class="bgWinDice"><p class="scoringDice1"> 0</p></section>
+           <section class="flex column center fitContent gap5"> <img src="asset/dice2.png" alt="Dice1" width="28px" class="bgBlack"><p class="scoringDice2"> 0</p></section>
+            <section class="flex column center fitContent gap5"> <img src="asset/dice3.png" alt="Dice1" width="28px" class="bgBlack"><p class="scoringDice3"> 0</p></section>
+            <section class="flex column center fitContent gap5"> <img src="asset/dice4.png" alt="Dice1" width="28px" class="bgBlack"><p class="scoringDice4"> 0</p></section>
+            <section class="flex column center fitContent gap5"> <img src="asset/dice5.png" alt="Dice1" width="28px" class="bgWinDice"><p class="scoringDice5"> 0</p></section>
+            <section class="flex column center fitContent gap5"> <img src="asset/dice6.png" alt="Dice1" width="28px" class="bgBlack"><p class="scoringDice6"> 0</p></section>
+          </div>
+      </div>
+        <div class="ellipse hover flex center column" id="playDice">
         <p style="margin: 0; color: white;font-size: 20px; position: absolute;" class="playText none">JOUER</p>
           <img src="asset/dice6.png" class="de" width="70px" />
         </div>
@@ -47,6 +62,7 @@
           <button type="submit" class="btnModal btn whiteBg" id="saveMyScore" >Récuperé mes point</button>
         </div>
       </div>
+
 
       <div class="playerG">
        
