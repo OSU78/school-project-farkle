@@ -23,7 +23,7 @@ const GameTurn = require('../game/farkelgame')
 const sendIntelOfUserInRoom = (socket,room)=>{
     socket.emit('refreshListStatus',{payload : [farkelRoom[room]]})
     for(const user in farkelRoom[room]){
-        if(user !== "nbUserInRoom" && user !== "inGame" ){
+        if(user !== "nbUserInRoom" && user !== "inGame"){
             socket.broadcast.to(user).emit('refreshListStatus',{payload : farkelRoom[room]})
         }
     }
@@ -45,6 +45,7 @@ const gameDoneByTheLastPlayer = (socket,room)=>{
  * function for sending to everyone who is the winner
  */
 const ThisPlayerIsTheWinner = (socket,Room,id)=>{
+        socket.emit('gameWin',{reason : 0,payload : Room[id]})
     for (const key in Room) {
         if(Room[key] !== "selectPositionInGame" && Room[key] !== "nbUserInRoom" && Room[key] !== "inGame" && Room[key] !== "nbUserReady"){
              socket.broadcast.to(key).emit('gameWin',{reason : 0,payload : Room[id]})
