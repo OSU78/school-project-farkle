@@ -258,6 +258,9 @@ form {
     position: absolute;
     right: 12px;
 }
+.absolute{
+    position: absolute;
+}
 
 .playerPoint {
     display: flex;
@@ -414,6 +417,22 @@ form {
 
 }
 
+.labelAbsolute {
+    position: absolute;
+    top: 15px;
+
+    color: #5d0bb4a1;
+    user-select: none;
+}
+
+.labelAbsolute2 {
+    position: absolute;
+    bottom: -35px;
+
+    color: #5d0bb4a1;
+    user-select: none;
+}
+
 .bgWinDice {
     background: #6442ca;
     padding: 5px;
@@ -440,6 +459,73 @@ form {
 .de {
     animation: opacity 1.4s infinite;
 }
+
+
+
+.winner {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.8);
+    opacity: 0;
+    align-items: center;
+    justify-content: center;
+    z-index: -2;
+    backdrop-filter: blur(7px);
+    transition: all 0.3s;
+    
+}
+
+.winner h1 {
+    background: linear-gradient(180deg,
+            #7137d0 0%,
+            rgba(17, 118, 162, 0.99) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    text-fill-color: transparent;
+    text-transform: uppercase;
+    font-size: 4em;
+}
+
+.winnerDisplay {
+    display: flex;
+    flex-direction: column;
+}
+
+.winnerContent {
+    text-align: center;
+    color: #fff;
+}
+.winner h2{
+    color: #7137d0;
+}
+
+.winner-btn {
+    display: inline-block;
+    margin: 10px 0 0;
+    height: 60px;
+    color: rgba(255, 255, 255, 0.822);
+    background: linear-gradient(180deg, #7137D0 0%, rgba(17, 118, 162, 0.99) 100%);
+    border: 1px solid rgba(150, 150, 150, 0.45);
+
+    border-radius: 8px;
+    min-width: 200px;
+    text-transform: uppercase;
+    transition: all 0.20s;
+    cursor: pointer;
+    font-weight: bold;
+}
+.winner-btn:hover{
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25);
+    color: white;
+    animation: color2 1.3s infinite;
+    cursor: pointer;
+}
+
+
 
 @keyframes scaleOutline {
     0% {
@@ -649,34 +735,82 @@ form {
         flex-direction: column;
         gap: 22px;
     }
-    .playerSection{
+
+    .playerSection {
         min-width: 150px;
         max-width: 150px;
     }
-    .playerStatus{
+
+    .playerStatus {
         font-size: 0.54rem;
     }
-    .playerG{
+
+    .playerG {
         padding-top: 0px;
     }
-    .playerName{
+
+    .playerName {
         font-size: 1.54rem;
     }
-    
-    #scoringDice{
+
+    #scoringDice {
         flex-wrap: wrap;
         padding: 12px;
     }
-    .ellipse{
+
+    .ellipse {
         width: 130px;
         height: 130px;
         margin: 5px;
     }
-    .playerPoint{
+
+    .playerPoint {
         font-size: 2rem;
         height: 64px;
     }
-    #diceRestant{
+
+    #diceRestant {
         font-size: 1.18rem;
+    }
+}
+
+
+
+
+
+
+
+
+/* Animation confettis */
+.confetti {
+    transition: all 0.3s;
+    position: absolute;
+    width: 10px;
+    height: 20px;
+    opacity: 0;
+    animation: fall 2s linear infinite, fold 0.5s linear infinite alternate;
+}
+
+
+
+/* Animation confettis */
+.confetti {
+    position: absolute;
+    width: 10px;
+    height: 20px;
+    opacity: 0;
+}
+
+@keyframes combinedAnimation {
+    0% {
+        transform: translateY(-100%) scaleY(1) rotate(0deg) translateX(0);
+        opacity: 1;
+    }
+    50% {
+        transform: translateY(50%) scaleY(0.5) rotate(180deg) translateX(1000px);
+    }
+    100% {
+        transform: translateY(1000px) scaleY(1) rotate(360deg) translateX(0);
+        opacity: 0;
     }
 }
