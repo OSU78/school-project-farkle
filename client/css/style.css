@@ -410,6 +410,7 @@ form {
     border-radius: 202px;
     background-repeat: no-repeat;
     background-size: contain;
+    user-select: none;
 
 }
 
@@ -646,7 +647,7 @@ form {
 
     .responsiveFlex {
         flex-direction: column;
-        gap: 42px;
+        gap: 22px;
     }
     .playerSection{
         min-width: 150px;
@@ -665,5 +666,17 @@ form {
     #scoringDice{
         flex-wrap: wrap;
         padding: 12px;
+    }
+    .ellipse{
+        width: 130px;
+        height: 130px;
+        margin: 5px;
+    }
+    .playerPoint{
+        font-size: 2rem;
+        height: 64px;
+    }
+    #diceRestant{
+        font-size: 1.18rem;
     }
 }
