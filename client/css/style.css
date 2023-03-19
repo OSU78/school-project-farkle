@@ -176,7 +176,8 @@ form {
     margin: 10px;
     gap: 5px;
 }
-.card p{
+
+.card p {
     margin: 0;
     padding: 0;
 }
@@ -296,6 +297,7 @@ form {
 .spaceArround {
     justify-content: space-around;
 }
+
 .space-beetween {
     justify-content: space-between;
 }
@@ -319,15 +321,15 @@ form {
     text-fill-color: transparent;
 }
 
-#diceRestant{
+#diceRestant {
     font-size: 1.8em;
     background: linear-gradient(180deg,
-    #7137d0 0%,
-    rgba(17, 118, 162, 0.99) 100%);
--webkit-background-clip: text;
--webkit-text-fill-color: transparent;
-background-clip: text;
-text-fill-color: transparent;
+            #7137d0 0%,
+            rgba(17, 118, 162, 0.99) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    text-fill-color: transparent;
 }
 
 .playerPoint h1 {
@@ -411,18 +413,20 @@ text-fill-color: transparent;
 
 }
 
-.bgWinDice{
+.bgWinDice {
     background: #6442ca;
     padding: 5px;
     border-radius: 8px;
     opacity: 0.7;
 }
-.bgBlack{
+
+.bgBlack {
     background: #000000;
     padding: 5px;
     border-radius: 8px;
     opacity: 0.2;
 }
+
 .outlineScale {
     animation: scaleOutline 1.3s infinite;
 
@@ -596,28 +600,33 @@ text-fill-color: transparent;
 
 @keyframes vibration {
     0% {
-      transform: translate(0);
+        transform: translate(0);
     }
+
     20% {
-      transform: translate(-3px, 3px);
+        transform: translate(-3px, 3px);
     }
+
     40% {
-      transform: translate(3px, -3px);
+        transform: translate(3px, -3px);
     }
+
     60% {
-      transform: translate(-3px, 3px);
+        transform: translate(-3px, 3px);
     }
+
     80% {
-      transform: translate(3px, -3px);
+        transform: translate(3px, -3px);
     }
+
     100% {
-      transform: translate(0);
+        transform: translate(0);
     }
-  }
-  
-  .vibrating {
+}
+
+.vibrating {
     animation: vibration 0.20s linear 3;
-  }
+}
 
 
 /* Application de l'animation à un nouvel élément */
@@ -633,5 +642,17 @@ text-fill-color: transparent;
 @media screen and (max-width: 768px) {
     .logo {
         width: 300px;
+    }
+
+    .responsiveFlex {
+        flex-direction: column;
+        gap: 42px;
+    }
+    .playerSection{
+        min-width: 150px;
+        max-width: 150px;
+    }
+    .playerStatus{
+        font-size: 0.54rem;
     }
 }
