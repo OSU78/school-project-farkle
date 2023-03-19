@@ -1,19 +1,27 @@
+// Variables and constants
+const socket = io.connect("https://swamp-sweltering-paint.glitch.me/");
+const roomName = getQueryStringValue("roomName");
+const playerName = getQueryStringValue("playerName");
+const playerScore = [];
 const existingPlayers = [];
+const serverIsAwake = {state:false} // Lorsque l'état est égal à ffalse, nous demandons à l'utilisateur d'être patient.
 const frontBtn = {
-    login: document.getElementById('loginOne'),
-}
+    login: document.getElementById("loginOne"),
+};
 
-var counterTour=0;
+
+var counterTour = 0;
 var myTurnSave = false;
 var playerPlayed = "";
-const socket = io.connect("https://swamp-sweltering-paint.glitch.me/")
 
-const serverIsAwake = {state:false} // when state eqqual false we tell the user to be patient
+// Initialisation de la game
+initializeGame();
+
+
 
 /**
-*   function for prevent user than the server is going to wake up
+*    pour prévenir l'utilisateur que le serveur va se réveiller.
 */
-
 const handleErrors = (e)=>{
     console.log('veuillez patienté, nous relançons le server')
 }
@@ -21,107 +29,97 @@ const handleErrors = (e)=>{
 socket.on('connect_error', err => handleErrors(err))
 
 socket.on('connect',()=>{
-    serverIsAwake.state = true //when state its true we can go futher in the app
+    serverIsAwake.state = true //Si c'est à True, nous lui disons que le chargement est terminer.
     console.log('finish')
 })
 
-const roomName = getQueryStringValue('roomName');
-const playerName = getQueryStringValue('playerName');
 
-if (roomName && playerName) {
-    //alert("you are connected")
-    socket.emit('loginEvent', {
-        name: playerName,
-        roomId: roomName
-    })
 
+function initializeGame() {
+    if (roomName && playerName) {
+        socket.emit("loginEvent", {
+            name: playerName,
+            roomId: roomName,
+        });
+    }
+
+    addEventListeners();
 }
 
+// Event listeners
+function addEventListeners() {
+    window.addEventListener("DOMContentLoaded", () => {
+        if (document.querySelector("#playDice")) {
+            document.querySelector("#playDice").addEventListener("click", handlePlayDiceClick);
+            document.querySelector("#saveMyScore").addEventListener("click", handleSaveMyScoreClick);
+        }
+    });
+
+    socket.on("responseLogin", (data) => console.log("you get connected ", data));
+    socket.on("gameWin", (data) => console.log("GAME WINNER", data));
+    socket.on("loseThisOne", () => console.log("Vous avez perdu ce tour"));
+    socket.on("oneMoreTime", () => console.log("Vous pouvez continue à jouer"));
+    socket.on("refreshListStatus", updatePlayerSection);
+}
+
+// Utility functions
 function getQueryStringValue(variable) {
     const queryString = window.location.search;
     const urlParams = new URLSearchParams(queryString);
     return urlParams.get(variable);
 }
 
-//Fonction pour afficher le timer de 20 secondes avant de passer le tour ou de lancer les dés
+// Timer functions
 var timer = null;
 var counter = 70;
+
 function startTimer(name) {
-   counter=11;
-   
+    counter = 11;
     const maxCount = 0;
     const root = document.documentElement; // Accéder à l'élément :root
 
     timer = setInterval(() => {
-            counter--;
+        counter--;
 
-            // Mettre à jour la variable CSS --timer avec la valeur du timer
-            root.style.setProperty("--timer", `"${counter}"`);
+        // Mettre à jour la variable CSS --timer avec la valeur du timer
+        root.style.setProperty("--timer", `"${counter}"`);
 
-            if (counter == maxCount) {
-                clearInterval(timer);
-                counterTour=0;
-                console.log("70 secondes se sont écoulées.");
-                document.querySelector("#" + name).classList.remove('myTurn');
-             
-                if (myTurnSave && playerPlayed == playerName) {
-                    console.log("C'est votre tour")
-                   
-                    socket.emit('myChoice', {state : true});
-                    document.querySelector('.me').classList.remove('myTurn');
-                    counter = 70
-                }
+        if (counter == maxCount) {
+            clearInterval(timer);
+            counterTour = 0;
+            console.log("70 secondes se sont écoulées.");
+            document.querySelector("#" + name).classList.remove("myTurn");
+
+            if (myTurnSave && playerPlayed == playerName) {
+                console.log("C'est votre tour");
+                socket.emit("myChoice", {
+                    state: true
+                });
+                document.querySelector(".me").classList.remove("myTurn");
+                counter = 70;
             }
-
-        },
-        1000);
+        }
+    }, 1000);
 }
 
-
-function convertObjectToArray(variable) {
-    if (Array.isArray(variable)) {
-        console.log("La variable est un tableau");
-    } else if (typeof variable === "object" && variable !== null) {
-        console.log("La variable est un objet");
-
-        // Convertir l'objet en tableau avec les paires clé-valeur
-        const keyValueArray = Object.entries(variable);
-        console.log("Objet converti en tableau avec clés et valeurs:", keyValueArray);
-
-        // Convertir l'objet en tableau avec uniquement les valeurs
-        const valuesArray = Object.values(variable);
-        console.log("Objet converti en tableau avec uniquement les valeurs:", valuesArray);
-        return valuesArray;
-
-    } else {
-        console.log("La variable n'est ni un objet ni un tableau");
-        return false
-    }
-}
-
-
-
+// Player functions
 function ready2playFarkle(e) {
-    if (e.classList.contains('clickReady')) {
-        e.classList.remove('clickReady');
-        console.log("ready2playFarkle")
-        socket.emit('clientIsReady');
+    if (e.classList.contains("clickReady")) {
+        e.classList.remove("clickReady");
+        console.log("ready2playFarkle");
+        socket.emit("clientIsReady");
     }
-};
-
+}
 
 function updatePlayerSection(room, userLeft = null) {
     const playerSection = document.querySelector('.playerG');
     playerSection.innerHTML = ''; // Vider le contenu actuel de la section des joueurs
-
     var players = room.payload; // Utilisez "payload" pour accéder aux données des joueurs
     if (players.length == 1) {
         console.log("PLAYER /" + players.length)
         players = players[0]
-
     }
     console.log(players)
-
     for (const [userId, userData] of Object.entries(players)) {
 
         if (
@@ -131,9 +129,6 @@ function updatePlayerSection(room, userLeft = null) {
             userId !== "selectPositionInGame"
         ) {
 
-
-
-
             console.log(userId)
             const {
                 name,
@@ -142,17 +137,15 @@ function updatePlayerSection(room, userLeft = null) {
                 ready2play,
                 currentScore,
                 scoreTotal,
-
+                scoringDices,
+                nbDice,
             } = userData;
-
-
-            console.log("name : " + name)
+            
+           console.log("name : " + name)
             // Si l'utilisateur est parti, passer à l'itération suivante sans créer de nouvelle carte
             if (userLeft && name === userLeft) {
                 continue;
             }
-
-
 
 
             // Créer un nouvel élément de carte pour chaque utilisateur
@@ -171,30 +164,43 @@ function updatePlayerSection(room, userLeft = null) {
 
             //Si c'est le tour du joueur, ajouter la classe "myTurn" à la carte du joueur
             if (myTurn) {
+                if(myTurn && playerPlayed == playerName){
+                    //alert (nbDice)
+                    document.querySelector(`.scoringDice1`).previousElementSibling.classList.remove('vibrating');
+                    document.querySelector(`.scoringDice5`).previousElementSibling.classList.remove('vibrating');
+                    document.querySelector('#diceRestant').innerText = nbDice;
+                    scoringDices.forEach((dice, index) => {
+                        document.querySelector(`.scoringDice${index + 1}`).innerText = dice;
+                        console.log(`DICE = scoringDice${index + 1} `)
+                        if(index+1 == 5 || index+1 == 1){  
+                            document.querySelector(`.scoringDice${index + 1}`).previousElementSibling.classList.add('vibrating');
+
+                        }
+                        
+                        
+                    })
+                }
+               
+                console.table(scoringDices)
                 myTurnSave = true;
                 playerPlayed = name;
-               console.log("C'est votre tour")
-
-
-            } else {
-
+              //  alert("currentScore : " + currentScore)
+                document.querySelector('.currentScore').innerText = "";
+                document.querySelector('.currentScore').innerText = currentScore;
+                document.querySelector('#playDice').classList.add('outlineScale');
+                console.log("C'est votre tour")
+            } else if(!myTurn){
+                document.querySelector('#playDice').classList.remove('outlineScale');
                 newPlayerCard.classList.remove('myTurn');
             }
-
-
             if (ready2play) {
                 newPlayerCard.classList.add('ready');
                 readyTemplate = ' <span class="playerStatus clickReady bgGreen"> Prêt 💪</span>'
-            } else {
-
             }
             if (!isAlive) {
                 newPlayerCard.classList.add('dead');
             }
-            //alert("currentScore : " + currentScore)
-            if(currentScore !=0 ){ 
-            document.querySelector('.currentScore').innerText = currentScore;
-            }
+           
             // Ajouter le contenu HTML à la carte du joueur
             newPlayerCard.innerHTML = `
             <section class="playerPoint">
@@ -205,7 +211,7 @@ function updatePlayerSection(room, userLeft = null) {
             <p class="PlayerName">${name}</p>
            ${readyTemplate}
             </section>
-        `;
+            `;
 
             // Ajouter la carte du joueur à la section des joueurs
             const playerSection = document.querySelectorAll('.playerG');
@@ -223,130 +229,53 @@ function updatePlayerSection(room, userLeft = null) {
                         /* supprimer tout les name */
                         document.querySelectorAll('.playerDiv').forEach((e) => {
                             e.classList.remove('myTurn');
-                           
-                           
                         })
                         console.log("C'EST A MOI DE JOUER")
                         document.querySelector("#" + name).classList.add('myTurn');
-                        if( counterTour<1){
-                            
+                        if (counterTour < 1) {
                             startTimer(name);
-                           
                             counterTour++;
-                        }
-                        else{
+                        } else {
                             counter = 70
                         }
-                        
-
-
-
                     }
-
-
-
                 }
             }
-
-
         }
     }
-
-
-
-
 
 }
 
 
- // GAME players choice
- window.addEventListener('DOMContentLoaded', () => {
- if (document.querySelector('#playDice')) {
-    document.querySelector('#playDice').addEventListener('click', () => {
-        console.log("playDice")
-        
-        if (myTurnSave && playerPlayed == playerName) {
-            console.log("C'est votre tour")
-           
-            socket.emit('myChoice', {state : true});
-            document.querySelector('.me').classList.remove('myTurn');
-            counter = 70
-        }
-        else {
-            console.log("Ce n'est pas votre tour")
-        }
-    });
+// Play dice
+function handlePlayDiceClick() {
+    console.log("playDice");
 
-
-
-    // Le joueur passe son tour et sauvegarde son score
-    document.querySelector('#saveMyScore').addEventListener('click', () => {
-        console.log("playDice")
-        
-        if (myTurnSave && playerPlayed == playerName) {
-            console.log("C'est votre tour")
-           
-            socket.emit('myChoice', {state : false});
-            document.querySelector('.me').classList.remove('myTurn');
-            counter = 70
-        }
-        else {
-            console.log("Ce n'est pas votre tour")
-        }
+    if (myTurnSave && playerPlayed == playerName) {
+        console.log("C'est votre tour");
+        socket.emit("myChoice", {
+            state: true
+        });
+        document.querySelector(".me").classList.remove("myTurn");
+        counter = 70;
+    } else {
+        console.log("Ce n'est pas votre tour");
     }
-    );
 }
- })
 
 
 
-
-
-socket.on('responseLogin', (data) => {
-    console.log("you get connected ", data)
-})
-
-
-
-
-// GAME WINNERS 
-socket.on('gameWin', (data) => {
-    console.log("GAME WINNER", data)
-})
-
-
-socket.on('loseThisOne', () => {
-    console.log("Vous avez perdu ce tour")
-   // alert("Vous avez perdu ce tour")
-})
-
-
-
-socket.on('oneMoreTime', () => {
-    console.log("Vous pouvez continue à jouer")
-    //alert("Vous pouvez continue à jouer")
-}
-)
-
-
-
-
-
-
-
-socket.on('refreshListStatus', (data) => {
-
-    // const players = data["payload"][0]["data"];
-    // const nbrPlayers = Object.keys(data["payload"][0]["data"]).length;
-    // console.log(nbrPlayers)
-    // console.log(players)
-    console.log(data)
-
-    // const roomData = data.payload[0];
-    var roomData = data;
-    console.log("ROOM DATA : " + roomData)
-    if (roomData != false) {
-        updatePlayerSection(roomData);
+// Save my score
+function handleSaveMyScoreClick() {
+    console.log("saveMyScore");
+    if (myTurnSave && playerPlayed == playerName) {
+        console.log("C'est votre tour");
+        socket.emit("myChoice", {
+            state: false
+        });
+        document.querySelector(".me").classList.remove("myTurn");
+        counter = 70;
+    } else {
+        console.log("Ce n'est pas votre tour");
     }
-
-});
+}
