@@ -4,7 +4,9 @@ const roomName = getQueryStringValue("roomName");
 const playerName = getQueryStringValue("playerName");
 const playerScore = [];
 const existingPlayers = [];
-const serverIsAwake = {state:false} // Lorsque l'état est égal à ffalse, nous demandons à l'utilisateur d'être patient.
+const serverIsAwake = {
+    state: false
+} // Lorsque l'état est égal à ffalse, nous demandons à l'utilisateur d'être patient.
 const frontBtn = {
     login: document.getElementById("loginOne"),
 };
@@ -20,15 +22,15 @@ initializeGame();
 
 
 /**
-*    pour prévenir l'utilisateur que le serveur va se réveiller.
-*/
-const handleErrors = (e)=>{
+ *    pour prévenir l'utilisateur que le serveur va se réveiller.
+ */
+const handleErrors = (e) => {
     console.log('veuillez patienté, nous relançons le server')
 }
 
 socket.on('connect_error', err => handleErrors(err))
 
-socket.on('connect',()=>{
+socket.on('connect', () => {
     serverIsAwake.state = true //Si c'est à True, nous lui disons que le chargement est terminer.
     console.log('finish')
 })
@@ -56,7 +58,10 @@ function addEventListeners() {
     });
 
     socket.on("responseLogin", (data) => console.log("you get connected ", data));
-    socket.on("gameWin", (data) => console.log("GAME WINNER", data));
+    socket.on("gameWin", (data) => {
+        console.log("GAME WINNER", data);
+        winnerDisplay(data)
+    });
     socket.on("loseThisOne", () => console.log("Vous avez perdu ce tour"));
     socket.on("oneMoreTime", () => console.log("Vous pouvez continue à jouer"));
     socket.on("refreshListStatus", updatePlayerSection);
@@ -138,10 +143,11 @@ function updatePlayerSection(room, userLeft = null) {
                 currentScore,
                 scoreTotal,
                 scoringDices,
+                remainingDices,
                 nbDice,
             } = userData;
-            
-           console.log("name : " + name)
+
+            console.log("name : " + name)
             // Si l'utilisateur est parti, passer à l'itération suivante sans créer de nouvelle carte
             if (userLeft && name === userLeft) {
                 continue;
@@ -164,32 +170,40 @@ function updatePlayerSection(room, userLeft = null) {
 
             //Si c'est le tour du joueur, ajouter la classe "myTurn" à la carte du joueur
             if (myTurn) {
-                if(myTurn && playerPlayed == playerName){
+                if (myTurn && playerPlayed == playerName) {
                     //alert (nbDice)
                     document.querySelector(`.scoringDice1`).previousElementSibling.classList.remove('vibrating');
                     document.querySelector(`.scoringDice5`).previousElementSibling.classList.remove('vibrating');
+                    document.querySelector(`.remainingDice1`).previousElementSibling.classList.remove('vibrating');
+                    document.querySelector(`.remainingDice5`).previousElementSibling.classList.remove('vibrating');
                     document.querySelector('#diceRestant').innerText = nbDice;
                     scoringDices.forEach((dice, index) => {
                         document.querySelector(`.scoringDice${index + 1}`).innerText = dice;
                         console.log(`DICE = scoringDice${index + 1} `)
-                        if(index+1 == 5 || index+1 == 1){  
+                        if (index + 1 == 5 || index + 1 == 1) {
                             document.querySelector(`.scoringDice${index + 1}`).previousElementSibling.classList.add('vibrating');
 
                         }
-                        
-                        
+
+
+                    })
+                    remainingDices.forEach((dice, index) => {
+                        document.querySelector(`.remainingDice${index + 1}`).innerText = dice;
+                        if (index + 1 == 5 || index + 1 == 1) {
+                            document.querySelector(`.remainingDice${index + 1}`).previousElementSibling.classList.add('vibrating');
+                        }
                     })
                 }
-               
+
                 console.table(scoringDices)
                 myTurnSave = true;
                 playerPlayed = name;
-              //  alert("currentScore : " + currentScore)
+                //  alert("currentScore : " + currentScore)
                 document.querySelector('.currentScore').innerText = "";
                 document.querySelector('.currentScore').innerText = currentScore;
                 document.querySelector('#playDice').classList.add('outlineScale');
                 console.log("C'est votre tour")
-            } else if(!myTurn){
+            } else if (!myTurn) {
                 document.querySelector('#playDice').classList.remove('outlineScale');
                 newPlayerCard.classList.remove('myTurn');
             }
@@ -200,7 +214,7 @@ function updatePlayerSection(room, userLeft = null) {
             if (!isAlive) {
                 newPlayerCard.classList.add('dead');
             }
-           
+
             // Ajouter le contenu HTML à la carte du joueur
             newPlayerCard.innerHTML = `
             <section class="playerPoint">
@@ -265,6 +279,40 @@ function handlePlayDiceClick() {
 
 
 
+// On affiche le gagnant
+function winnerDisplay(data) {
+    if (data.reason == 1) {
+        console.log(data.payload)
+        document.querySelector('.winner').classList.add('winnerDisplay');
+        document.querySelector('.winner').style.cssText = "opacity:1 ; z-index: 1000"
+        document.querySelector('.winnerContent').innerHTML = `
+        <section class="confettiBox vibrating"></section>
+        <h1 class="vibrating">VOUS AVEZ GAGNER</h1>
+        <h2 class="vibrating">Les autres joueurs on abandonné 🥳 , vous ête trop fort</h2>
+        `
+        generateConfetti(100); // Génère 100 confettis
+        document.querySelector(".winner-btn").classList.add("vibrating");
+        document.querySelector('.winner-btn').addEventListener('click', () => {
+            window.location.reload();
+        })
+        return
+    }
+
+    document.querySelector('.winner').classList.add('winnerDisplay');
+    document.querySelector('.winner').style.cssText = "opacity:1 ; z-index: 1000"
+    document.querySelector('.winnerContent').innerHTML = `
+        <section class="confettiBox"></section>
+        <h1 class="vibrating">${data.payload.name}</h1>
+        <h2 class="vibrating">gagne la partie</h2>
+    `
+    generateConfetti(100); // Génère 100 confettis
+    document.querySelector(".winner-btn").classList.add("vibrating");
+    document.querySelector('.winner-btn').addEventListener('click', () => {
+        window.location.reload();
+    })
+}
+
+
 // Save my score
 function handleSaveMyScoreClick() {
     console.log("saveMyScore");
@@ -277,5 +325,37 @@ function handleSaveMyScoreClick() {
         counter = 70;
     } else {
         console.log("Ce n'est pas votre tour");
+    }
+}
+
+
+
+
+
+
+
+
+//ANIMATION JS WINNER
+function randomColor() {
+    const colors = ['red', 'orange', 'yellow', 'green', 'blue', 'indigo', 'violet'];
+    return colors[Math.floor(Math.random() * colors.length)];
+}
+
+function createConfetti() {
+    const confetti = document.createElement('div');
+    confetti.classList.add('confetti');
+    confetti.style.backgroundColor = randomColor();
+    confetti.style.left = Math.floor(Math.random() * 110) + 'vw';
+    const animationDuration = Math.random() * 2 + 2; // Génère une durée d'animation aléatoire entre 2 et 4 secondes
+    confetti.style.animation = `combinedAnimation ${animationDuration}s linear infinite`;
+    confetti.style.animationDelay = `${Math.random() * 2}s`; // Ajoute un délai d'animation aléatoire
+    return confetti;
+}
+
+
+
+function generateConfetti(number) {
+    for (let i = 0; i < number; i++) {
+        document.querySelector('.confettiBox').appendChild(createConfetti());
     }
 }
