@@ -33,8 +33,10 @@ const sendIntelOfUserInRoom = (socket,room)=>{
  * function for send win event to the last player in the room
  */
 const gameDoneByTheLastPlayer = (socket,room)=>{
+    if(farkelRoom[room]){
+      socket.emit('gameWin',{reason : 1})
+    }
     let lastUser = farkelRoom[room]
-    socket.emit('gameWin',{reason : 1})
     for (const key in lastUser) {
        if(lastUser[key] !== "selectPositionInGame" && lastUser[key] !== "nbUserInRoom" && lastUser[key] !== "inGame" && lastUser[key] !== "nbUserReady"){
             socket.broadcast.to(key).emit('gameWin',{reason : 1})
@@ -50,6 +52,7 @@ const ThisPlayerIsTheWinner = (socket,Room,id)=>{
     for (const key in Room) {
         if(Room[key] !== "selectPositionInGame" && Room[key] !== "nbUserInRoom" && Room[key] !== "inGame" && Room[key] !== "nbUserReady"){
              socket.broadcast.to(key).emit('gameWin',{reason : 0,payload : Room[id]})
+            delete farkelRoom[Room][key]
         }
      }
 }
