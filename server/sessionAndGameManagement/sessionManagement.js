@@ -1,6 +1,6 @@
 const farkelRoom        = {}
 const farkelUser        = {}
-const farkelWinScore    = 10000
+const farkelWinScore    = 2000
 const farkelLimitRoom   = 6
 const nbDice            = 6
 const {
@@ -52,7 +52,6 @@ const ThisPlayerIsTheWinner = (socket,Room,id)=>{
     for (const key in Room) {
         if(Room[key] !== "selectPositionInGame" && Room[key] !== "nbUserInRoom" && Room[key] !== "inGame" && Room[key] !== "nbUserReady"){
              socket.broadcast.to(key).emit('gameWin',{reason : 0,payload : Room[id]})
-             delete farkelRoom[Room][key]
         }
      }
 }
