@@ -1,8 +1,8 @@
 const farkelRoom        = {}
 const farkelUser        = {}
-const farkelWinScore    = 2000
+const farkelWinScore    = 10000
 const farkelLimitRoom   = 6
-const nbDice            = 5
+const nbDice            = 6
 const {
         isEnoughtSpaceInRoom,
         playerAlreadyExist,
