@@ -42,8 +42,8 @@ if (trigger) {
 
 
     trigger.addEventListener("click", () => {
-        var roomName = document.getElementById("roomName").value;
-        var playerName = document.getElementById("playerName").value;
+        var roomName = (document.getElementById("roomName").value).toUpperCase();
+        var playerName = (document.getElementById("playerName").value).toUpperCase();
         if ((document.getElementById("playerName").value.length >= 4) && (document.getElementById("roomName").value.length >= 4)) {
             // Construire l'URL avec les paramètres
 
