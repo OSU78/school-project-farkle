@@ -71,7 +71,7 @@ function addEventListeners() {
 function getQueryStringValue(variable) {
     const queryString = window.location.search;
     const urlParams = new URLSearchParams(queryString);
-    return urlParams.get(variable.toUpperCase());
+    return urlParams.get(variable);
 }
 
 // Timer functions
