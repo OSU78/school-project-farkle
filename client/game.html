@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8"/>
+		<link rel="apple-touch-icon" sizes="76x76" href="asset/favicon/apple-touch-icon.png"/>
+		<link rel="icon" type="image/png" sizes="32x32" href="asset/favicon/favicon-32x32.png"/>
+		<link rel="icon" type="image/png" sizes="16x16" href="asset/favicon/favicon-16x16.png"/>
+		<link rel="manifest" href="asset/favicon/site.webmanifest"/>
+		<link rel="stylesheet" href="css/style.css"/>
+		<link rel="stylesheet" href="css/style-modal.css"/>
+		<script src="https://cdn.socket.io/4.4.1/socket.io.min.js" integrity="sha384-fKnu0iswBIqkjxrhQCTZ7qlLHOFEgNkRmK2vaO/LbTZSXdJfAu6ewRBdwHPhBo/H" crossorigin="anonymous"></script>
+		<script src="js/socket.js"></script>
+		<meta name="msapplication-TileColor" content="#da532c"/>
+		<meta name="theme-color" content="#ffffff"/>
+		<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+		<title>Game</title>
+	</head>
+	<body>
+		<main class="space-beetween">
+			<div class="playerG"></div>
+
+			<div class="flex row center gap20 spaceArround responsiveFlex">
+
+
+				<div class="flex column center fitContent" style="position: relative;">
+					<div class="flex row center  gap5 " style=" margin: 0; height: 25px; gap: 10px ; justify-content: start;margin-left:12Px">
+						<p>Dée restant</p>
+						<p class="" id="diceRestant">5</p>
+					</div>
+					<div class="flex row center  gap5 " style=" margin: 0; height: 25px; gap: 10px ; justify-content: start;margin-left:12Px">
+						<p class="labelAbsolute">Scoring Dice</p>
+					</div>
+					<div class="flex row center fitContent gap5 card space-beetween" id="scoringDice">
+						<section class="flex column center fitContent gap5">
+							<img src="asset/dice1.png" alt="Dice1" width="28px" class="bgWinDice"><p class="scoringDice1">
+								0</p>
+						</section>
+						<section class="flex column center fitContent gap5">
+							<img src="asset/dice2.png" alt="Dice1" width="28px" class="bgBlack"><p class="scoringDice2">
+								0</p>
+						</section>
+						<section class="flex column center fitContent gap5">
+							<img src="asset/dice3.png" alt="Dice1" width="28px" class="bgBlack"><p class="scoringDice3">
+								0</p>
+						</section>
+						<section class="flex column center fitContent gap5">
+							<img src="asset/dice4.png" alt="Dice1" width="28px" class="bgBlack"><p class="scoringDice4">
+								0</p>
+						</section>
+						<section class="flex column center fitContent gap5">
+							<img src="asset/dice5.png" alt="Dice1" width="28px" class="bgWinDice"><p class="scoringDice5">
+								0</p>
+						</section>
+						<section class="flex column center fitContent gap5">
+							<img src="asset/dice6.png" alt="Dice1" width="28px" class="bgBlack"><p class="scoringDice6">
+								0</p>
+						</section>
+					</div>
+					<div class="flex row center  gap5 " style=" margin: 0; height: 25px; gap: 10px ; justify-content: start;margin-left:12Px">
+						<p class="labelAbsolute2">Remining Dice</p>
+					</div>
+					<div class="flex row center fitContent gap5 card space-beetween" id="remainingDices">
+						<section class="flex column center fitContent gap5">
+							<img src="asset/dice1.png" alt="Dice1" width="28px" class="bgWinDice"><p class="remainingDice1">
+								0</p>
+						</section>
+						<section class="flex column center fitContent gap5">
+							<img src="asset/dice2.png" alt="Dice1" width="28px" class="bgBlack"><p class="remainingDice2">
+								0</p>
+						</section>
+						<section class="flex column center fitContent gap5">
+							<img src="asset/dice3.png" alt="Dice1" width="28px" class="bgBlack"><p class="remainingDice3">
+								0</p>
+						</section>
+						<section class="flex column center fitContent gap5">
+							<img src="asset/dice4.png" alt="Dice1" width="28px" class="bgBlack"><p class="remainingDice4">
+								0</p>
+						</section>
+						<section class="flex column center fitContent gap5">
+							<img src="asset/dice5.png" alt="Dice1" width="28px" class="bgWinDice"><p class="remainingDice5">
+								0</p>
+						</section>
+						<section class="flex column center fitContent gap5">
+							<img src="asset/dice6.png" alt="Dice1" width="28px" class="bgBlack"><p class="remainingDice6">
+								0</p>
+						</section>
+					</div>
+
+				</div>
+				<div class="ellipse hover flex center column" id="playDice">
+					<p style="margin: 0; color: white;font-size: 20px; position: absolute;" class="playText none">JOUER</p>
+					<img src="asset/dice6.png" class="de" width="70px"/>
+				</div>
+
+				<div class="flex column center" style="width: fit-content !important;">
+					<div class="card-point playerPoint2 flex center gap5 relative" style="height: 52px; ">
+						<p class="currentScore">0</p>
+						<span class="pt">pt</span>
+					</div>
+					<button type="submit" class="btnModal btn whiteBg" id="saveMyScore">Récuperé mes point</button>
+				</div>
+			</div>
+
+
+			<div class="playerG"></div>
+
+
+			<div class="winner">
+				<div
+					class="winnerContent"><!-- Le contenu sera ajouté par la fonction JavaScript -->
+				</div>
+				<button class="winner-btn">Recommencer</button>
+			</div>
+
+		</main>
+
+		<!-- Modal -->
+		<div class="overModal">
+			<div class="modal-content">
+				<span class="close-button">&times;</span>
+				<h2 class="textOverModal">
+					<span class="winnerName">PLAYER 1</span>
+					<span class="gameStatus">WIN</span>
+				</h2>
+			</div>
+		</div>
+	</body>
+
+</html>

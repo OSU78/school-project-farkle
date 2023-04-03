@@ -1,0 +1,25 @@
+{
+  "name": "school-project-farkle",
+  "version": "1.0.0",
+  "description": "Multiplayer game based on Farkle",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/richflor/school-project-farkle.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/richflor/school-project-farkle/issues"
+  },
+  "homepage": "https://github.com/richflor/school-project-farkle#readme",
+  "dependencies": {
+    "express": "^4.18.2",
+    "nodemon": "^2.0.21",
+    "socket.io": "^4.6.1"
+  }
+}

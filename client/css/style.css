@@ -1,0 +1,816 @@
+:root {
+    --timer: "70";
+}
+
+body {
+    background-color: white;
+    color: rgba(0.0.0, 0.7);
+    font-family: 'Roboto', sans-serif;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 1.5;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+}
+
+main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    min-height: 90vh;
+}
+
+form {
+    margin-top: 20px;
+    animation-delay: 1.9s;
+    opacity: 0;
+    animation: logo 1s cubic-bezier(0.075, 0.82, 0.165, 1) 0.5s forwards;
+
+}
+
+.inputDiv {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    width: 100%;
+    margin-bottom: 15px;
+
+}
+
+.inputDiv>input {
+    margin: 0;
+    color: rgba(0, 0, 0, 0.7);
+    font-size: 16px;
+    text-transform: uppercase;
+    min-width: 280px;
+    height: 35px;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    border-radius: 3px;
+    background-color: rgba(0, 0, 0, 0.02);
+    outline: 1px solid transparent;
+    padding: 0 10px;
+}
+
+.inputDiv>input:focus {
+    background-color: rgba(0, 0, 0, 0.01);
+    outline: 1px solid rgba(0, 0, 0, 0.3);
+    transition: 0.2s;
+    caret-color: #7137D0;
+}
+
+.btn {
+    margin: 10px 0 0;
+    height: 60px;
+    color: rgba(255, 255, 255, 0.822);
+    background: linear-gradient(180deg, #7137D0 0%, rgba(17, 118, 162, 0.99) 100%);
+    border: 1px solid rgba(150, 150, 150, 0.45);
+
+    border-radius: 8px;
+    min-width: 200px;
+    text-transform: uppercase;
+    transition: all 0.20s;
+}
+
+.whiteBg {
+    background: white;
+    color: #7137D0;
+}
+
+.logo {
+    opacity: 0;
+    animation: logo 1s forwards;
+}
+
+@keyframes logo {
+    0% {
+        opacity: 0;
+        transform: translateY(100px);
+    }
+
+    50% {
+        opacity: 0;
+
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+
+.btn:hover {
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25);
+    color: white;
+    animation: color2 1.3s infinite;
+    cursor: pointer;
+
+}
+
+.whiteBg:hover {
+    animation: unset;
+    background: linear-gradient(180deg, #7137D0 0%, rgba(17, 118, 162, 0.99) 100%);
+    color: white;
+}
+
+.flex {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    width: -webkit-fill-available;
+    width: -moz-available;
+}
+
+.row {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    width: -webkit-fill-available;
+    width: -moz-available;
+}
+
+.column {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: -webkit-fill-available;
+    width: -moz-available;
+}
+
+.none {
+    display: none;
+}
+
+.label {
+    font-size: 13px;
+    color: rgba(0, 0, 0, 0.5);
+    margin: 0 0 4px;
+}
+
+
+
+.fitContent {
+    width: fit-content !important;
+}
+
+.card {
+    width: 100%;
+    height: fit-content;
+    background: white;
+    border-radius: 7px;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    padding: 10px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    margin: 10px;
+    gap: 5px;
+}
+
+.card p {
+    margin: 0;
+    padding: 0;
+}
+
+.playerG {
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
+    padding: 20px;
+    gap: 20px;
+    align-items: center;
+    justify-items: start;
+    flex-direction: row-reverse;
+}
+
+.meColor {
+    background: linear-gradient(180deg, #375ed0 0%, rgba(17, 118, 162, 0.99) 100%) !important;
+    color: white;
+    text-transform: uppercase;
+}
+
+.meColor span {
+    color: #dceefb;
+    background: #e6e6fa70;
+}
+
+.playerDiv {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    width: auto;
+    height: 100%;
+    padding: 8px;
+}
+
+.scaleInOut {
+    animation: scaleInOut 1s infinite;
+    transition: background-color 0.3s;
+
+}
+
+.scaleInOut:hover {
+    cursor: pointer;
+
+    background: #37b294
+}
+
+.scaleInOut2 {
+    animation: scaleInOut2 1s infinite;
+    transition: background-color 0.3s;
+}
+
+.scaleInOut2:hover {
+    cursor: pointer;
+
+    background: #3fb63f69;
+}
+
+.myTurn {
+    animation: scaleInOut3 1s infinite;
+    transition: background-color 0.3s;
+    padding: 8px;
+    border-radius: 8px;
+}
+
+.myTurn::after {
+    content: var(--timer);
+    display: flex;
+    padding: 8px;
+    border: 1px solid #4953bc30;
+    border-radius: 4px;
+    font-size: 15px;
+    padding-top: 2px;
+    color: rebeccapurple;
+    padding-bottom: 2px;
+    top: px;
+    position: absolute;
+    right: 12px;
+}
+.absolute{
+    position: absolute;
+}
+
+.playerPoint {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    font-style: normal;
+    font-weight: 700;
+    font-size: 3.3em;
+    user-select: none;
+    /* identical to box height */
+    background: linear-gradient(180deg,
+            #7137d0 0%,
+            rgba(17, 118, 162, 0.99) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    text-fill-color: transparent;
+}
+
+.gap5 {
+    gap: 5px;
+}
+
+.relative {
+    position: relative;
+}
+
+.pt {
+    margin-bottom: -2px;
+    font-size: 13px;
+}
+
+.gap40 {
+    gap: 40px;
+}
+
+.spaceArround {
+    justify-content: space-around;
+}
+
+.space-beetween {
+    justify-content: space-between;
+}
+
+.playerPoint2 {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    font-style: normal;
+    font-weight: 700;
+    font-size: 3.4em;
+    user-select: none;
+    text-align: center;
+    /* identical to box height */
+    background: linear-gradient(180deg,
+            #7137d0 0%,
+            rgba(17, 118, 162, 0.99) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    text-fill-color: transparent;
+}
+
+#diceRestant {
+    font-size: 1.8em;
+    background: linear-gradient(180deg,
+            #7137d0 0%,
+            rgba(17, 118, 162, 0.99) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    text-fill-color: transparent;
+}
+
+.playerPoint h1 {
+    margin: 0;
+}
+
+.playerPoint span {
+    font-size: 0.51em;
+    margin-top: 2.1em;
+    margin-left: 5px;
+}
+
+.playerSection {
+    display: flex;
+    position: relative;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-start;
+    background: rgba(217, 217, 217, 0.12);
+    border: 4px solid rgba(150, 150, 150, 0.25);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    border-radius: 7px;
+    padding: 10px;
+    min-width: 210px;
+    max-width: 220px;
+    user-select: none;
+}
+
+.playerStatus {
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    font-size: 0.84em;
+    color: #313131;
+    background: #8d8d8d6c;
+    padding: 5px 14px;
+    border-radius: 5px;
+    user-select: none;
+}
+
+.bgGreen {
+    background: #3fb63f !important;
+    color: white;
+    transform: scale(0.68);
+    position: absolute;
+    right: -6px;
+    top: -7px;
+    border-top-left-radius: 0px;
+    border-top-right-radius: 0px;
+}
+
+.space-beetween {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    padding: 20px;
+    gap: 20px;
+    align-items: center;
+    justify-items: start;
+}
+
+.hover {
+    transition: 0.15s;
+    cursor: pointer;
+}
+
+.hover:hover {
+    transform: scale(1.12);
+    cursor: pointer;
+
+}
+
+.ellipse {
+    background-image: url(../asset/ellipse.png);
+    width: 192px;
+    height: 192px;
+    outline: 23px solid #f5f3f3;
+    border-radius: 202px;
+    background-repeat: no-repeat;
+    background-size: contain;
+    user-select: none;
+
+}
+
+.labelAbsolute {
+    position: absolute;
+    top: 15px;
+
+    color: #5d0bb4a1;
+    user-select: none;
+}
+
+.labelAbsolute2 {
+    position: absolute;
+    bottom: -35px;
+
+    color: #5d0bb4a1;
+    user-select: none;
+}
+
+.bgWinDice {
+    background: #6442ca;
+    padding: 5px;
+    border-radius: 8px;
+    opacity: 0.7;
+}
+
+.bgBlack {
+    background: #000000;
+    padding: 5px;
+    border-radius: 8px;
+    opacity: 0.2;
+}
+
+.outlineScale {
+    animation: scaleOutline 1.3s infinite;
+
+}
+
+.ellipse:hover {
+    outline: 4px solid #f5f3f3;
+}
+
+.de {
+    animation: opacity 1.4s infinite;
+}
+
+
+
+.winner {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.8);
+    opacity: 0;
+    align-items: center;
+    justify-content: center;
+    z-index: -2;
+    backdrop-filter: blur(7px);
+    transition: all 0.3s;
+    
+}
+
+.winner h1 {
+    background: linear-gradient(180deg,
+            #7137d0 0%,
+            rgba(17, 118, 162, 0.99) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    text-fill-color: transparent;
+    text-transform: uppercase;
+    font-size: 4em;
+}
+
+.winnerDisplay {
+    display: flex;
+    flex-direction: column;
+}
+
+.winnerContent {
+    text-align: center;
+    color: #fff;
+}
+.winner h2{
+    color: #7137d0;
+}
+
+.winner-btn {
+    display: inline-block;
+    margin: 10px 0 0;
+    height: 60px;
+    color: rgba(255, 255, 255, 0.822);
+    background: linear-gradient(180deg, #7137D0 0%, rgba(17, 118, 162, 0.99) 100%);
+    border: 1px solid rgba(150, 150, 150, 0.45);
+
+    border-radius: 8px;
+    min-width: 200px;
+    text-transform: uppercase;
+    transition: all 0.20s;
+    cursor: pointer;
+    font-weight: bold;
+}
+.winner-btn:hover{
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25);
+    color: white;
+    animation: color2 1.3s infinite;
+    cursor: pointer;
+}
+
+
+
+@keyframes scaleOutline {
+    0% {
+        outline: 23px solid #f5f3f3;
+    }
+
+    50% {
+        outline: 4px solid #d0d0d0;
+    }
+
+    100% {
+        outline: 23px solid #f5f3f3;
+    }
+}
+
+
+
+
+
+@keyframes scaleInOut {
+    0% {
+        transform: scale(1);
+        transition: all 0.20s;
+        outline: 3px solid #7237d000;
+    }
+
+    50% {
+        transform: scale(0.93);
+        outline: 3px solid #7237d0;
+    }
+
+    100% {
+        transform: scale(1);
+        outline: 3px solid #7237d000;
+    }
+
+}
+
+
+
+@keyframes scaleInOut3 {
+    0% {
+        transform: scale(1);
+        transition: all 0.20s;
+        outline: 3px solid #7237d000;
+    }
+
+    50% {
+        transform: scale(0.93);
+        outline: 3px solid #7237d04c;
+    }
+
+    100% {
+        transform: scale(1);
+        outline: 3px solid #7237d000;
+    }
+
+}
+
+.nohover {
+    transition: 0.15s;
+    cursor: default;
+}
+
+.nohover:hover {
+    background-color: #8d8d8d6c;
+    cursor: default;
+}
+
+@keyframes scaleInOut2 {
+    0% {
+        transform: scale(1);
+        transition: all 0.20s;
+        outline: 3px solid #7237d000;
+    }
+
+    50% {
+        transform: scale(0.95);
+        outline: 2px solid #7237d039;
+    }
+
+    100% {
+        transform: scale(1);
+        outline: 3px solid #7237d000;
+    }
+
+}
+
+@keyframes color {
+    0% {
+        color: white;
+        transition: all 0.20s;
+    }
+
+    50% {
+        color: rgba(255, 255, 255, 0.363);
+        transform: scale(0.97);
+    }
+
+    100% {
+        color: rgba(255, 255, 255, 0.822);
+    }
+
+}
+
+@keyframes opacity {
+    0% {
+        opacity: 1;
+        transition: all 0.20s;
+    }
+
+    50% {
+        opacity: 0.4;
+        transform: scale(0.97);
+    }
+
+    100% {
+        opacity: 1;
+    }
+
+}
+
+@keyframes color2 {
+    0% {
+        color: rgba(255, 255, 255, 0.822);
+        transition: all 0.20s;
+    }
+
+    50% {
+        color: rgba(255, 255, 255, 0.822);
+        transform: scale(1.12);
+
+    }
+
+    100% {
+        color: rgba(255, 255, 255, 0.822);
+    }
+
+}
+
+/* Définition de l'animation d'entrée */
+@keyframes slideIn {
+    0% {
+        opacity: 0;
+        transform: translateY(-100%) scale(0.5) rotateX(-90deg);
+    }
+
+    50% {
+        opacity: 0.5;
+        transform: translateY(-50%) scale(0.8) rotateX(-45deg);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateY(0) scale(1) rotateX(0deg);
+    }
+}
+
+
+@keyframes vibration {
+    0% {
+        transform: translate(0);
+    }
+
+    20% {
+        transform: translate(-3px, 3px);
+    }
+
+    40% {
+        transform: translate(3px, -3px);
+    }
+
+    60% {
+        transform: translate(-3px, 3px);
+    }
+
+    80% {
+        transform: translate(3px, -3px);
+    }
+
+    100% {
+        transform: translate(0);
+    }
+}
+
+.vibrating {
+    animation: vibration 0.20s linear 3;
+}
+
+
+/* Application de l'animation à un nouvel élément */
+.new-player {
+    animation-name: slideIn;
+    animation-duration: 0.5s;
+    transform-origin: bottom;
+}
+
+
+/* MEDIA QUERIES */
+
+@media screen and (max-width: 768px) {
+    .logo {
+        width: 300px;
+    }
+
+    .responsiveFlex {
+        flex-direction: column;
+        gap: 22px;
+    }
+
+    .playerSection {
+        min-width: 150px;
+        max-width: 150px;
+    }
+
+    .playerStatus {
+        font-size: 0.54rem;
+    }
+
+    .playerG {
+        padding-top: 0px;
+    }
+
+    .playerName {
+        font-size: 1.54rem;
+    }
+
+    #scoringDice {
+        flex-wrap: wrap;
+        padding: 12px;
+    }
+
+    .ellipse {
+        width: 130px;
+        height: 130px;
+        margin: 5px;
+    }
+
+    .playerPoint {
+        font-size: 2rem;
+        height: 64px;
+    }
+
+    #diceRestant {
+        font-size: 1.18rem;
+    }
+}
+
+
+
+
+
+
+
+
+/* Animation confettis */
+.confetti {
+    transition: all 0.3s;
+    position: absolute;
+    width: 10px;
+    height: 20px;
+    opacity: 0;
+    animation: fall 2s linear infinite, fold 0.5s linear infinite alternate;
+}
+
+
+
+/* Animation confettis */
+.confetti {
+    position: absolute;
+    width: 10px;
+    height: 20px;
+    opacity: 0;
+}
+
+@keyframes combinedAnimation {
+    0% {
+        transform: translateY(-100%) scaleY(1) rotate(0deg) translateX(0);
+        opacity: 1;
+    }
+    50% {
+        transform: translateY(50%) scaleY(0.5) rotate(180deg) translateX(1000px);
+    }
+    100% {
+        transform: translateY(1000px) scaleY(1) rotate(360deg) translateX(0);
+        opacity: 0;
+    }
+}
