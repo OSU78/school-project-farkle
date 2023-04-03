@@ -15,7 +15,7 @@ const {
         isThisPlayerIsTheWinner,
     } = require('./funcSessionManagement')
 
-const GameTurn = require('../game/farkelgame')
+const GameTurn = require('../farkelgame')
 
 /**
  * function for sending intel of room to every participant
