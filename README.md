@@ -13,4 +13,4 @@ How to play :
 - Check your remaining dices for your next play (if you score 0 you lose points for this turn)
 - Use the left button to retrieve your points and stop your turn.
 
-The First to score 10000 win. Do your best !
+The First to score 2000 win. Do your best !
