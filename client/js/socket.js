@@ -227,11 +227,7 @@ function updatePlayerSection(room, userLeft = null) {
 
             // Ajouter la carte du joueur à la section des joueurs
             const playerSection = document.querySelectorAll('.playerG');
-            if (document.querySelectorAll(".playerG")[0].childElementCount < 3) {
                 playerSection[0].appendChild(newPlayerCard);
-            } else {
-                playerSection[1].appendChild(newPlayerCard);
-            }
 
             if (myTurn) {
                 if (players.nbUserInRoom == players.nbUserReady) {
